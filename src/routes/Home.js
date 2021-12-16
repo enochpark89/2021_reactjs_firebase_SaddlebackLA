@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useState, useEffect} from 'react';
 import styled from "styled-components";
-import SaddlebackLogo from '../img/SaddlebackLogo.svg';
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-    Link,
-    Outlet
-  } from "react-router-dom";
-
 // Components
-import Terms from '../components/Terms';
 import Test from '../components/Test';
+import {
+  Routes,
+  Route,
+  Link,
+  Outlet,
+  useNavigate ,
+} from "react-router-dom";
 
+// Testing Firebase
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {firebaseapp, auth, googleProvider} from '../firebase';
 
 // Header section
 const Header = styled.header`
@@ -24,35 +24,6 @@ const Header = styled.header`
    align-items: center;
    border-bottom: 1px solid #e6e6e6;
 `;
-
-const Logo = styled.div`
-height: 20%;
-width: 20%;
-padding: 10px;
-margin-bottom: 10px;
-`;
-
-const LoginSection =styled.div`
-margin-right: 10px;
-`;
-
-const MenuLoginButton = styled.button`
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 10px 12px;
-  color: white;
-  border-radius: 18px;
-  font-size: 13px;
-  font-weight: bold;
-  background-color: var(--twitter-color);
-  margin-right: 20px;
-
-  &:hover {
-    background-color: var(--twitter-dark-color);
-  }
-`;
-
 
 // Three sections in the Container
 
@@ -102,41 +73,27 @@ const RightContainerParent = styled.div`
 const Home = () => {
 
 return(
-<>
-<Header>
-    <Logo>
-      <img src={SaddlebackLogo} alt="React Logo" />
-    </Logo>
-    <LoginSection>
-        <MenuLoginButton>Login</MenuLoginButton>
-        <MenuLoginButton>Sign Up</MenuLoginButton>
-    </LoginSection>
-</Header>
-    <Container>
-    <BrowserRouter>
-        <LeftContainerParent>
-        <div>
-            <li>
-                <Link to="/">Home</Link>
-            </li>    
-            <li>
-                <Link to="/teams">Teams</Link>
-            </li>  
-        </div>   
-        </LeftContainerParent>
-        <CenterContainerParent>
-            <Routes>
-                <Route path="/" element={<h1>Home</h1>} />
-                <Route path="/teams" element={
-                    <Test />
-                } />
-            </Routes>
-        </CenterContainerParent>
-    </BrowserRouter>
-
-        <RightContainerParent>3 </RightContainerParent>
-    </Container>
-    </>
+<Container>
+  <LeftContainerParent>
+  <div>
+    <li>
+      <Link to="/">Home</Link>
+    </li>    
+    <li>
+      <Link to="/teams">Teams</Link>
+    </li>  
+  </div>   
+  </LeftContainerParent>
+  <CenterContainerParent>
+      <Routes>
+          <Route path="/" element={<h1>Home</h1>} />
+          <Route path="/teams" element={
+              <Test />
+          } />
+      </Routes>
+  </CenterContainerParent>
+  <RightContainerParent>3 </RightContainerParent>
+</Container>
 );
 }
 export default Home;

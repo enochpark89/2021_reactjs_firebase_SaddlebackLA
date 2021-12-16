@@ -19,7 +19,6 @@ function Test() {
             })
             .catch(err => console.log(err));
     });
-    console.log(post)
 
     return (
         <div className='markdown-body'>

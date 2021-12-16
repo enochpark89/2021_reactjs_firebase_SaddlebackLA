@@ -128,4 +128,19 @@ Routes:
 
 
 *Create md page on reactjs?*
+- It works using library called react-markdown
+Steps:
+1. Fetch md
+2. Put it on the state's children
+3. use react-markdown to display the result as JSX.
 
+*I might have to rearrange my code. Move home to app.js*
+
+# 7. Set up authentication
+
+1. Create jsconfig file 
+
+2. Create the authentication using getAuth and createUserWithEmailAndPassword from "firebase/auth"
+
+```js
+```
