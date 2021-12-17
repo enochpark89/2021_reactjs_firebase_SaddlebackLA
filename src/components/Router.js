@@ -3,14 +3,16 @@ import {
     BrowserRouter,
   } from "react-router-dom";
 import Home from "../routes/Home";
-import TestHeader from "./TestHeader"
+import Header from "./Header"
+import styled from "styled-components";
+
 
 const AppRouter = ({ isLoggedIn }) => {
  
     return (
         <BrowserRouter>
-            <h1>Hello</h1>
-            <TestHeader></TestHeader>
+            <Header isLoggedIn={isLoggedIn}
+/>
             <Home />
         </BrowserRouter>
     )

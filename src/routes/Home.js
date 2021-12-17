@@ -2,6 +2,8 @@ import React, { useState, useEffect} from 'react';
 import styled from "styled-components";
 // Components
 import Test from '../components/Test';
+import Tweet from '../components/Tweet';
+
 import {
   Routes,
   Route,
@@ -77,7 +79,7 @@ return(
   <LeftContainerParent>
   <div>
     <li>
-      <Link to="/">Home</Link>
+      <Link to="/">TweetTest</Link>
     </li>    
     <li>
       <Link to="/teams">Teams</Link>
@@ -86,7 +88,9 @@ return(
   </LeftContainerParent>
   <CenterContainerParent>
       <Routes>
-          <Route path="/" element={<h1>Home</h1>} />
+          <Route path="/" element={
+            <Tweet />
+        } />
           <Route path="/teams" element={
               <Test />
           } />

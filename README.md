@@ -144,3 +144,36 @@ Steps:
 
 ```js
 ```
+
+# 8. DB set up
+
+1. Create a database.
+
+```js
+```
+
+2. Cloud Firestore.
+
+- Create DB
+    - test mode
+    - production mode
+
+3. import database
+```js
+import "firebase/database";
+
+```
+
+# 9. Cloud Firestore
+
+- Unlike other DB, you don't have to program a lot to create a db. 
+- However, there are some restrictions. 
+- Collection > folder or group of documents. 
+
+Steps:
+1. Create a collection
+*Collection is a group of documents*
+2. Import a db from the app. 
+3. Add data to a specific collection.
+- key:value
+4. 

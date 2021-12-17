@@ -14,10 +14,8 @@ useEffect(() => {
   auth.onAuthStateChanged((user) => {
     if (user) {
       setIsLoggedIn(true);
-      console.log("User is logged in");
     } else {
       setIsLoggedIn(false);
-      console.log("User is logged out");
     }
   });
 }, []);
