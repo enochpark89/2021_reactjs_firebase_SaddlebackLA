@@ -17,6 +17,7 @@ import Test from '../components/Test';
 import TweetForm from './TweetForm';
 
 const Container = styled.div`
+
   width: 1260px;
   max-width: 1260px;
   display: flex;
@@ -31,7 +32,9 @@ const CenterContainerParent = styled.div`
   @media (max-width: 768px) {
     width: 100%;
   }
-  border-right: 1px solid #e6e6e6;;
+  border-right: 1px solid #e6e6e6;
+  border-left: 1px solid #e6e6e6;;
+
 `;
 
 

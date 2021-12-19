@@ -9,7 +9,7 @@ import {
   onSnapshot,
   orderBy,
   query,
-  where,
+  getDoc,
   } from 'firebase/firestore';
 
 import Tweets from './Tweets';
@@ -36,7 +36,7 @@ const TweetFormTextInput = styled.input`
   font-size: 18px;
   border-radius: 4px;
   color: #989898;
-  background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
+  background-color: #f8f8f8;
 
   &::placeholder {
     color: #989898;
@@ -50,22 +50,19 @@ const TweetFormSubmit = styled.input`
   cursor: pointer;
   padding: 10px 15px;
   color: white;
-  border-radius: 15px;
+  border-radius: 30px;
   font-size: 15px;
   font-weight: bold;
-  background-color: #00AFF0;
-  margin-left: auto;
+  background-color: var(--twitter-color);
+  margin-right: 5px;
+
+  &:hover {
+    background-color: var(--twitter-dark-color);
+  }
 `;
 
-
-
-
-
-
-
-
-
 const TweetForm = ({ userObj }) => {
+    
     const [tweet, settweet] = useState("");
     const [tweets, settweets] = useState([]);
 
@@ -77,19 +74,21 @@ useEffect(() => {
   collection(getFirestore(), 'tweet'),
   orderBy('createdAt', 'desc')
   );
+
   const unsubscribe = onSnapshot(q, querySnapshot => {
-  const newArray = querySnapshot.docs.map(doc => {
-  return {
-  id: doc.id,
-  ...doc.data(),
-  };
-  });
+
+    const newArray = querySnapshot.docs.map(doc => {
+    return {
+    id: doc.id,
+    ...doc.data(),
+    };
+    });
   settweets(newArray);
   });
-
   return () => {
   unsubscribe();
   };
+
 }, []);
 
     const onSubmit = (event) => {
@@ -97,9 +96,12 @@ useEffect(() => {
       try {
       async function addTweet() {
       const docRef = await addDoc(collection(database, "tweet"), {
-      text: tweet,
-      createdAt: Date.now(),
       creatorId: userObj.uid,
+      displayName: userObj.displayName,
+      email: userObj.email,
+      createdAt: Date.now(),
+      text: tweet,
+      photoURL: userObj.photoURL,
       });
       }
       addTweet();
@@ -118,6 +120,7 @@ useEffect(() => {
     
     return (
       <div>
+        <iframe width="100%" height="700px" src="https://docs.google.com/document/d/e/2PACX-1vTfC44GWS-3sVnzKe8-qJT0C8Z-18KueGYXB_ySSVG18clwCijyNL3R1saGqTzsZj1AmwpDsS6YxDDm/pub?embedded=true"></iframe> 
         <TweetFormContainer onSubmit={onSubmit}>
           <TweetFormTextContainer>
             <TweetFormTextInput
@@ -131,7 +134,6 @@ useEffect(() => {
           </TweetFormTextContainer>
           <TweetFormSubmit type="submit" value="tweet" />
         </TweetFormContainer>
-        <div>
         {tweets.map((tweet) => (
           <Tweets
           key={tweet.id}
@@ -140,7 +142,6 @@ useEffect(() => {
         />
         ))}
         </div>
-      </div>
       
     );
 }

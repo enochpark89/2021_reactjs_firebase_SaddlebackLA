@@ -3,12 +3,17 @@ import styled from "styled-components";
 
 
 const RightContainerParent = styled.div`
+  position: sticky;
+  top: 91px;
+  left: 0;
   width: 330px;
+  max-height: 400px;
 
   @media (max-width: 768px) {
     display: none;
   }
-  padding: 10px 10px;
+  padding: 20px;
+  padding-top: 50px;
 `;
 
 const RightContainer = () => {
