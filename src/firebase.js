@@ -3,8 +3,10 @@ import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getFirestore } from "firebase/firestore"
-
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut  } from "firebase/auth";
+import { getStorage } from "firebase/storage";
+
+
 
 
 // Your web app's Firebase configuration
@@ -27,3 +29,6 @@ export const logout = signOut;
 
 // retrieve the database (firehouse)
 export const database = getFirestore();
+
+// Access storage in Firebase
+export const storage = getStorage(firebaseapp);

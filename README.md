@@ -218,3 +218,35 @@ Before I do the changes, I changed the structure of the route so that router.js 
 │     └─ GlobalStyle.js
 └─ webpack.config.js
 ```
+
+# 11 Create a bucket
+
+Create the front-end that takes in the picture file. 
+
+Steps:
+
+1. Create an input HTML that takes in file. 
+
+```html
+<input type="file" accept="image/*" onChange={onFileChange} />
+
+```
+
+2. You can use existing FileReader() function to read the file attachment. 
+
+- clear photo will clear the photo.
+
+# 12 Upload file to firebase STorage
+
+STeps
+
+1. Install uuid
+```
+npm install uuid
+```
+2. use uuid to create random url
+
+# 13 Delete
+
+- use refFromStorage() to get the URL. 
+- Delete from the Tweet object and also in the storage.

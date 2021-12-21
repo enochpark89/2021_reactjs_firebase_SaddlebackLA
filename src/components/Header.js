@@ -1,8 +1,12 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import SaddlebackLogo from '../img/SaddlebackLogo.svg';
 import { auth, signInWithGoogle, googleProvider, logout } from "../firebase";
 
+import LoginForm from '../routes/LoginForm';
+
+
+/* Styled Components */
 
 const ContentHeader = styled.div`
   position: sticky;
@@ -40,6 +44,23 @@ const MenuLoginButton = styled.button`
   }
 `;
 
+/* Form Test */
+const LoginFormContainer = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  height: 580px;
+  z-index: 10;
+  background-color: white;
+  border-radius: 20px;
+  z-index: 100;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
+  background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
+  border: 1px solid ${(props) => (props.current === "true" ? "#404040" : "#eee")};
+`;
+
 // Log out handler
 const signOut = () => {
   logout(auth).then(() => {
@@ -50,51 +71,44 @@ const signOut = () => {
 }
 
 
-const googleLogin = () => {
-  
-  // sign up user using Google Account with a pop up.
-  signInWithGoogle()
-  .then((result) => {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    const credential = googleProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    // The signed-in user info.
-    const user = result.user;
-    // ...
-  }).catch((error) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.email;
-    // The AuthCredential type that was used.
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    // ...
-  });
-}
+/* Functions */
+
+
+
+
+
 
 
 const Header = ({ isLoggedIn }) => {
-    return(
+
+const [isShowLogin, setIsShowLogin] = useState(false);
+
+// handle Login Button
+const LoginScreen = () => {
+  setIsShowLogin(!isShowLogin);
+}
+
+  return(
+    <>
     <ContentHeader>
     <Logo>
       <img src={SaddlebackLogo} alt="Saddleback Logo" />
     </Logo>
-
     {isLoggedIn ? (
       <LoginMenu>
-      <MenuLoginButton onClick={signOut}>Log out</MenuLoginButton>
+        <MenuLoginButton onClick={signOut}>Log out</MenuLoginButton>
       </LoginMenu>
     ) : (
       <LoginMenu>
-      <MenuLoginButton onClick={googleLogin}>Google Login</MenuLoginButton>
-      <MenuLoginButton>Sign up</MenuLoginButton>
-    </LoginMenu>
+        <MenuLoginButton onClick={LoginScreen}>Google Login</MenuLoginButton>
+        <MenuLoginButton>Sign up</MenuLoginButton>
+      </LoginMenu>
     )
 
     }
-
     </ContentHeader>
+    <LoginForm isShowLogin={isShowLogin} isLoggedIn={isLoggedIn}/>
+    </>
     )
 }
 export default Header;

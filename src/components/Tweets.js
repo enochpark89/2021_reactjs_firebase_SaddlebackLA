@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { database } from "../firebase";
-import { doc, deleteDoc, updateDoc }from"firebase/firestore";
+import { database, storage } from "../firebase";
+import { doc, deleteDoc, updateDoc}from"firebase/firestore";
+import { deleteObject, ref, getDownloadURL } from "@firebase/storage";
+
 import styled from "styled-components";
 import userImage from "../img/user.png";
 
@@ -160,12 +162,17 @@ const Tweets = ({ tweetObj, isOwner }) => {
   // Literal
   const tweetTextRef =doc(database, "tweet", `${tweetObj.id}`);
 
-
   // Delete handler - ask user - delete from db.
   const onDeleteClick = async () => {
     const ok = window.confirm("Are you sure you want to delete this tweet?");
     if (ok) {
-        await deleteDoc(tweetTextRef );
+        await deleteDoc(tweetTextRef);
+        if(tweetObj.attachmentUrl){
+          let urlRef=ref(storage, tweetObj.attachmentUrl)
+          console.log(urlRef);
+          console.log("path:"+urlRef.fullPath);
+          await deleteObject(urlRef);
+        }
     }
   };
   
@@ -199,6 +206,7 @@ const Tweets = ({ tweetObj, isOwner }) => {
             <AuthorEmail>{tweetObj.email}</AuthorEmail>
             <AuthorDot>·</AuthorDot>
             <AuthorCreatedAt>{tweetObj.createdAt}</AuthorCreatedAt>
+
           </AuthorInfo>
         </PostingTweetAuthor>
 
@@ -222,6 +230,9 @@ const Tweets = ({ tweetObj, isOwner }) => {
         ) : (
           <>
             <PostingTweetDesc>{tweetObj.text}</PostingTweetDesc>
+            {tweetObj.attachmentUrl && (
+            <img src={tweetObj.attachmentUrl} width="370px" height="370px" />
+          )}
             <Button onClick={onDeleteClick}>Delete</Button>
             <Button onClick={toggleEditing}>Edit</Button>
           </>

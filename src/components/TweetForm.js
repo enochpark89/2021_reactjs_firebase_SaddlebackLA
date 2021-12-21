@@ -1,7 +1,9 @@
 import react,{useState, useEffect} from "react";
 import styled from "styled-components";
+import {v4 as uuidv4 } from 'uuid';
 
-import {database, auth} from "../firebase";
+import {database, auth, storage, storageRef} from "../firebase";
+import {  ref, uploadString, getDownloadURL } from "firebase/storage";
 import {
   addDoc,
   collection,
@@ -9,7 +11,6 @@ import {
   onSnapshot,
   orderBy,
   query,
-  getDoc,
   } from 'firebase/firestore';
 
 import Tweets from './Tweets';
@@ -65,6 +66,7 @@ const TweetForm = ({ userObj }) => {
     
     const [tweet, settweet] = useState("");
     const [tweets, settweets] = useState([]);
+    const [attachment, setAttachment] = useState("");
 
     
 useEffect(() => {
@@ -91,24 +93,34 @@ useEffect(() => {
 
 }, []);
 
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
       event.preventDefault();
-      try {
-      async function addTweet() {
-      const docRef = await addDoc(collection(database, "tweet"), {
-      creatorId: userObj.uid,
-      displayName: userObj.displayName,
-      email: userObj.email,
-      createdAt: Date.now(),
-      text: tweet,
-      photoURL: userObj.photoURL,
-      });
+      
+      let attachmentUrl='';
+
+      // Upload a file if the attachment is not empty.
+      if (attachment !== "") {
+      const fileRef = ref(storage, `${userObj.uid}/${uuidv4()}`);
+      // send the file reference to the storage service
+
+      const uploadFile = await uploadString(fileRef, attachment, "data_url");
+      attachmentUrl = await getDownloadURL(uploadFile.ref);
       }
-      addTweet();
-      } catch (error) {
-      console.error("Error adding document: ", error);
-      }
+
+      // Add the tweet to the database.
+      // Add tweet to firestore
+      await addDoc(collection(database, "tweet"), {
+        creatorId: userObj.uid,
+        displayName: userObj.displayName,
+        email: userObj.email,
+        createdAt: Date.now(),
+        text: tweet,
+        photoURL: userObj.photoURL,
+        attachmentUrl,
+        });
+
       settweet("");
+      setAttachment("");
     };
 
     const onChange = (event) => {
@@ -117,7 +129,26 @@ useEffect(() => {
       } = event;
       settweet(value);
     };
-    
+
+    const onFileChange = (event) => {
+      
+      // extract event.target.files[0] in ES6 syntax.
+      const {
+        target: { files },
+      } = event;
+      const theFile = files[0];
+      const reader = new FileReader();
+      reader.onloadend = (finishedEvent) => {
+        // finished event contain info about the file.
+        const {
+          currentTarget: { result },
+        } = finishedEvent;
+        setAttachment(result);
+      };
+      reader.readAsDataURL(theFile);
+    };
+
+    const onClearAttachment = () => { setAttachment("") };
     return (
       <div>
         <iframe width="100%" height="700px" src="https://docs.google.com/document/d/e/2PACX-1vTfC44GWS-3sVnzKe8-qJT0C8Z-18KueGYXB_ySSVG18clwCijyNL3R1saGqTzsZj1AmwpDsS6YxDDm/pub?embedded=true"></iframe> 
@@ -133,6 +164,15 @@ useEffect(() => {
             ></TweetFormTextInput>
           </TweetFormTextContainer>
           <TweetFormSubmit type="submit" value="tweet" />
+          <input type="file" accept="image/*" onChange={onFileChange} />
+          {attachment ? (
+          <div>
+            <img src={attachment} width="350px" height="350px" />
+            <button onClick={onClearAttachment}>Clear</button>
+          </div>
+        ) : null}
+
+
         </TweetFormContainer>
         {tweets.map((tweet) => (
           <Tweets
