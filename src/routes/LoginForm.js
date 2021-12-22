@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import googleLogo from "../img/google-logo.svg";
+
 
 import { signInWithGoogle, googleProvider } from "../firebase";
 
+
+/* Styled Components*/
+
+/* Form Test */
 const LoginFormContainer = styled.div`
   position: fixed;
   top: 50%;
@@ -13,14 +18,35 @@ const LoginFormContainer = styled.div`
   transform: translate(-50%, -50%);
   width: 420px;
   height: 580px;
-  z-index: 10;
   background-color: white;
   border-radius: 20px;
-  z-index: 100;
+ 
   box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
-  background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
-  border: 1px solid ${(props) => (props.current === "true" ? "#404040" : "#eee")};
+  background-color: #f8f8f8;
+  border: 1px solid #eee;
+  z-index: 10;
 `;
+
+const LoginMenu = styled.div``;
+
+const MenuLoginButton = styled.button`
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 12px;
+  color: white;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: bold;
+  background-color: var(--twitter-color);
+  margin-right: 30px;
+
+  &:hover {
+    background-color: var(--twitter-dark-color);
+  }
+`;
+
+
 
 const LoginFormContent = styled.div`
   display: flex;
@@ -41,24 +67,20 @@ const LoginFormTitle = styled.h1`
 const LoginFormTag = styled.form`
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 77%;
 `;
 
 const LoginInputTag = styled.input`
-  border: none;
-  outline: none;
+  border: 1px solid #e8e8e8;
+  outline: 1px solid #f5f5f5;
   padding: 15px;
-  padding-bottom: 15px;
+  padding-bottom: 10px;
   padding-top: 27px;
-  background-color: #f5f5f5;
+  background-color: #e8e8e8;
   margin-top: 10px;
   font-size: 16px;
   border-radius: 5px;
   position: relative;
-
-  &:focus {
-    background-color: #e8e8e8;
-  }
 
   &::placeholder {
     font-size: 14px;
@@ -79,26 +101,50 @@ const ErrorMessage = styled.h3`
 const LoginSubmitTag = styled.input`
   border: none;
   outline: none;
-  background-color: #98cff8;
+  background-color: var(--twitter-color);
   padding: 12px;
   color: white;
   border-radius: 30px;
   font-size: 16px;
   font-weight: bold;
+  margin-top: 18px;
   cursor: pointer;
 
+`;
+const CreateNew = styled.button`
+  border: none;
+  outline: none;
+  background-color: var(--twitter-color);
+  padding: 12px;
+  color: white;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 12px;
+`;
+
+
+const CloseButton = styled(FontAwesomeIcon)`
+  position: absolute;
+  top: 12px;
+  left: 90%;
+  font-size: 32px;
+  cursor: pointer;
+  color: #ff7675;
+
   &:hover {
-    background-color: var(--twitter-color);
+    color: #e74c3c};
   }
 `;
 
 
+/* Social Logins */
 const SocialLoginContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 80%;
-`;
+  width: 77%;
+`; 
 
 const GoogleLogin = styled.button`
   border: none;
@@ -121,117 +167,163 @@ const GoogleLogin = styled.button`
   }
 `;
 
-
-const CloseButton = styled(FontAwesomeIcon)`
-  position: absolute;
-  top: 12px;
-  left: 90%;
-  font-size: 32px;
-  cursor: pointer;
-  color: #ff7675;
-
-  &:hover {
-    color: #e74c3c};
-  }
-`;
-
 const IconGoogle = styled.img`
-  width: 18px;
-  margin-right: 5px;
+  width: 19px;
+  margin-right: 12px;
   margin-bottom: 1px;
 `;
 
-const LoginForm = ({isShowLogin, isLoggedIn}) => {
-    const [email, setEmail] = useState(""); // 유저 이메일
-    const [password, setPassword] = useState(""); // 유저 비밀번호
-    const [displayName, setDisplayName] = useState(""); // 유저 닉네임
-    const [showLoginForm, setshowLoginForm]= useState(isShowLogin); // 로그인 폼 보이기/안보이기;
+const IconTwitter = styled(FontAwesomeIcon)`
+  width: 22px;
+  margin-right: 12px;
+  margin-bottom: 1px;
+`;
 
-    
-    useEffect(() => {
-        // if user is logged in, hide login form
-        if (isLoggedIn) {
-            setshowLoginForm(false);
-        } 
-      });
 
-    const onSubmit = async (event) => {
-        // console.log("Authentication authService.currentUser", authService.currentUser);
-        event.preventDefault();
-        console.log(event);
-      };
+//* The Component *//
 
-    const onChange = (event) => {
-    const {
-        target: { name, value },
-    } = event;
+const LoginForm = ({ isLoggedIn}) => {
+  const [email, setEmail] = useState(""); // 유저 이메일
+  const [password, setPassword] = useState(""); // 유저 비밀번호
+  const [displayName, setDisplayName] = useState(""); // 유저 닉네임
+  const [isShowLogin, setIsShowLogin] = useState(false);
+  const [isShowCreate, setIsShowCreate] = useState(false);
 
-    if (name === "emailInput") {
-        setEmail(value);
-    } else if (name === "passwordInput") {
-        setPassword(value);
-    } else if (name === "displayNameInput") {
-        setDisplayName(value);
-    }
-    console.log("email", email);
-    console.log("password", password);
+  //* Top Right buttons *//
+
+  // Login button handler
+  const LoginScreen = () => {
+    setIsShowLogin(!isShowLogin);
+  }
+
+  // Log out button handler
+  const signOut = () => {
+    logout(auth).then(() => {
+      console.log("Sign-out successful");
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
+
+  ///* Top Right buttons *///
+
+  // Sign in with an exisitng account.
+  const onSubmit = async (event) => {
+      // console.log("Authentication authService.currentUser", authService.currentUser);
+      event.preventDefault();
+      console.log(event);
     };
 
-    const onGoogleLogin = () => {
+  // Create New Account
+  const onCreateNew = () => {
+    setIsShowCreate(true);
+    setIsShowLogin(false);
+  }
+
+  // If passwords and emails are entered, save them to states.
+  const onChange = (event) => {
+  const {
+      target: { name, value },
+  } = event;
+
+  if (name === "emailInput") {
+      setEmail(value);
+  } else if (name === "passwordInput") {
+      setPassword(value);
+
+  } else if (name === "displayNameInput") {
+      setDisplayName(value);
+  }
   
-        // sign up user using Google Account with a pop up.
-        signInWithGoogle()
-        .then((result) => {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          const credential = googleProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-          // The signed-in user info.
-          const user = result.user;
-          // ...
-        }).catch((error) => {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.email;
-          // The AuthCredential type that was used.
-          const credential = googleProvider.credentialFromError(error);
-          // ...
-        });
-      }
+  };
+
+  const onGoogleLogin = () => {
+
+      // sign up user using Google Account with a pop up.
+      signInWithGoogle()
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = googleProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.email;
+        // The AuthCredential type that was used.
+        const credential = googleProvider.credentialFromError(error);
+        // ...
+      });
+    }
     
-    const onClose = () => {
-        setshowLoginForm(false);
+    const onClickRegister = (event) => {
+      event.preventDefault();
+      console.log(event.target);
+      console.log(email, password);
     };
 
-    console.log("isShowLogin: "+ isShowLogin);
+    const onClose = () => {
+      setIsShowLogin(false);
+      setIsShowCreate(false);
+    };
+
     return (
-      <>
-      {showLoginForm ? (
-      <LoginFormContainer>
-        
-        <LoginFormContent>
-            <LoginFormTitle>Email Login</LoginFormTitle>
-            <LoginFormTag onSubmit={onSubmit}>
-                <LoginInputTag name="emailInput" type="text" placeholder="이메일" onChange={onChange} value={email} required></LoginInputTag>
-                <LoginInputTag name="passwordInput" type="password" placeholder="비밀번호" onChange={onChange} value={password} required></LoginInputTag>
+    <>
+      {isLoggedIn ? (
+        <LoginMenu>
+          <MenuLoginButton onClick={signOut}>Log out</MenuLoginButton>
+        </LoginMenu>
+        ) : (
+          <LoginMenu>
+            <MenuLoginButton onClick={LoginScreen}>Log in</MenuLoginButton>
+          </LoginMenu>
+        )
+      }
+      {isShowLogin ? (
+        <LoginFormContainer>
+          <LoginFormContent>
+              <LoginFormTitle>Log in</LoginFormTitle>
+              <LoginFormTag onSubmit={onSubmit}>
+                <LoginInputTag name="emailInput" type="text" placeholder="Email" onChange={onChange} value={email} required></LoginInputTag>
+                <LoginInputTag name="passwordInput" type="password" placeholder="Passwords" onChange={onChange} value={password} required></LoginInputTag>
                 <LoginSubmitTag type="submit" onClick={onSubmit} value="Login"></LoginSubmitTag>
-            </LoginFormTag>
-            <SocialLoginContainer>
+              </LoginFormTag>
+              <SocialLoginContainer>
+                <CreateNew onClick={onCreateNew}>
+                Create New
+                </CreateNew>
                 <GoogleLogin name="googleLogin" type="submit" onClick={onGoogleLogin}>
                   <IconGoogle src={googleLogo}></IconGoogle>
-                  Google Login
+                  Log in with Google
                 </GoogleLogin>
-            </SocialLoginContainer>
-        </LoginFormContent>
-        <CloseButton icon={faTimesCircle} type="button" onClick={onClose}></CloseButton>
-
-      </LoginFormContainer>
-      
-      
+              </SocialLoginContainer>
+              <CloseButton icon={faTimesCircle} type="button" onClick={onClose}></CloseButton>
+          </LoginFormContent>
+        </LoginFormContainer> 
       ): null}
-      </>
-    );
+
+      {isShowCreate ? (
+        <LoginFormContainer>
+          <LoginFormContent>
+            <LoginFormTitle>Sign up</LoginFormTitle>
+            <LoginFormTag onSubmit={onClickRegister}>
+              <LoginInputTag name="displayNameInput" type="text" placeholder="Display Name" onChange={onChange} value={displayName} required></LoginInputTag>
+              <LoginInputTag name="emailInput" type="text" placeholder="Email" onChange={onChange} value={email} required></LoginInputTag>
+              <LoginInputTag name="passwordInput" type="password" placeholder="Passwords" onChange={onChange} value={password} required></LoginInputTag>
+              <LoginSubmitTag type="submit" onClick={onClickRegister} value="Register"></LoginSubmitTag>
+            </LoginFormTag>
+            <CloseButton icon={faTimesCircle} type="button" onClick={onClose}></CloseButton>
+
+          </LoginFormContent> 
+        </LoginFormContainer>
+      ): null}
+    
+    </>  
+  );
 }
 
 export default LoginForm;

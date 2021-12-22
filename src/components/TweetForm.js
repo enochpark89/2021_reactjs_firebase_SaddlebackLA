@@ -18,12 +18,11 @@ import Tweets from './Tweets';
 const TweetFormContainer = styled.form`
   border-bottom: 1px solid #e6e6e6;
   padding: 15px;
+  z-index: 1;
 
 `;
-const TweetFormTextContainer = styled.div`
-  position: relative;
+const TweetFormTextContainer = styled.div``;
 
-`;
 const TweetFormTextInput = styled.input`
   width: 100%;
   border: none;
@@ -38,10 +37,7 @@ const TweetFormTextInput = styled.input`
   border-radius: 4px;
   color: #989898;
   background-color: #f8f8f8;
-
-  &::placeholder {
-    color: #989898;
-  }
+  z-index: 8;
 `;
 
 
@@ -150,7 +146,7 @@ useEffect(() => {
 
     const onClearAttachment = () => { setAttachment("") };
     return (
-      <div>
+      <>
         <iframe width="100%" height="700px" src="https://docs.google.com/document/d/e/2PACX-1vTfC44GWS-3sVnzKe8-qJT0C8Z-18KueGYXB_ySSVG18clwCijyNL3R1saGqTzsZj1AmwpDsS6YxDDm/pub?embedded=true"></iframe> 
         <TweetFormContainer onSubmit={onSubmit}>
           <TweetFormTextContainer>
@@ -181,7 +177,7 @@ useEffect(() => {
           isOwner={tweet.creatorId === userObj.uid}
         />
         ))}
-        </div>
+        </>
       
     );
 }
