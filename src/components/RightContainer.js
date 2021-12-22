@@ -17,19 +17,30 @@ const RightContainerParent = styled.div`
 `;
 
 const TrendContainer = styled.div`
-  background-color: ${(props) => (props.current === "true" ? "#1e2125" : "#f8f8f8")};
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  background-color: #f8f8f8;
   border-radius: 20px;
   padding: 20px 0px;
   margin-top: 15px;
+
 `;
 
 const TrendHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: 10px;
 `;
 
-const TrendContent = styled.div``;
+const TrendContent = styled.div`
+border-top: 1px solid #e6e6e6;
+&:hover {
+    background: #e6e6e6;
+  }
+`;
 
 const TrendHeaderTitle = styled.h1`
   font-size: 20px;
@@ -39,8 +50,13 @@ const TrendHeaderTitle = styled.h1`
 
 const TrendTitle = styled.h1`
   font-size: 16px;
-  margin-top: 5px;
-  margin-left: 17px;
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 88%;
+  height: 100%;
+  word-wrap: break-word;
+
 
 `;
 
@@ -54,7 +70,17 @@ const RightContainer = () => {
               </TrendHeader>
               <TrendContent>
                 <TrendTitle>
-                  testing testing
+                  testing testingdsaadfdasfdsafsdafadsdsdfdasfdasfdsafdsafadsfdsafdsafadsfdafdasfdsafdsafdsa
+                </TrendTitle>
+              </TrendContent>
+              <TrendContent>
+                <TrendTitle>
+                  testing testingdsaadfdasfdsafsdafadsdsdfdasfdasfdsafdsafadsfdsafdsafadsfdafdasfdsafdsafdsa
+                </TrendTitle>
+              </TrendContent>
+              <TrendContent>
+                <TrendTitle>
+                  testing testingdsaadfdasfdsafsdafadsdsdfdasfdasfdsafdsafadsfdsafdsafadsfdafdasfdsafdsafdsa
                 </TrendTitle>
               </TrendContent>
             </TrendContainer>
@@ -62,10 +88,25 @@ const RightContainer = () => {
               <TrendHeader>
                 <TrendHeaderTitle>Events</TrendHeaderTitle>
               </TrendHeader>
+              <TrendContent>
+                <TrendTitle>
+                  testing testingdsaadfdasfdsafsdafadsdsdfdasfdasfdsafdsafadsfdsafdsafadsfdafdasfdsafdsafdsa
+                </TrendTitle>
+              </TrendContent>
+              <TrendContent>
+                <TrendTitle>
+                  testing testingdsaadfdasfdsafsdafadsdsdfdasfdasfdsafdsafadsfdsafdsafadsfdafdasfdsafdsafdsa
+                </TrendTitle>
+              </TrendContent>
+              <TrendContent>
+                <TrendTitle>
+                  testing testingdsaadfdasfdsafsdafadsdsdfdasfdasfdsafdsafadsfdsafdsafadsfdafdasfdsafdsafdsa
+                </TrendTitle>
+              </TrendContent>
             </TrendContainer>
             <TrendContainer>
               <TrendHeader>
-                <TrendHeaderTitle>Members</TrendHeaderTitle>
+                <TrendHeaderTitle>View Members</TrendHeaderTitle>
               </TrendHeader>
 
             </TrendContainer>

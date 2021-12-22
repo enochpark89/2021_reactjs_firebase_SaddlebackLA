@@ -193,6 +193,18 @@ const Tweets = ({ tweetObj, isOwner }) => {
     setNewtweet(value);
   };
 
+  const getTime = (time) => {
+    const Created = parseInt(time)
+    const date = new Date(Created);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hour = date.getHours();
+    const min = date.getMinutes();
+    let ampm = hour >= 12 ? 'pm' : 'am';
+    const timeDisplay = `${year}/${month}/${day} ${hour}:${min} ${ampm}`;
+    return timeDisplay;
+  }
 
   
   return (
@@ -205,7 +217,7 @@ const Tweets = ({ tweetObj, isOwner }) => {
             <AuthorName>{tweetObj.displayName}</AuthorName>
             <AuthorEmail>{tweetObj.email}</AuthorEmail>
             <AuthorDot>·</AuthorDot>
-            <AuthorCreatedAt>{tweetObj.createdAt}</AuthorCreatedAt>
+            <AuthorCreatedAt>{getTime(tweetObj.createdAt)}</AuthorCreatedAt>
 
           </AuthorInfo>
         </PostingTweetAuthor>

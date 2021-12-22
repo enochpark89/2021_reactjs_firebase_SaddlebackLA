@@ -42,7 +42,7 @@ const AppRouter = ({ isLoggedIn, userObj }) => {
  
     return (
         <BrowserRouter>
-          <Header isLoggedIn={isLoggedIn} />
+          <Header isLoggedIn={isLoggedIn} userObj={userObj} />
           <Container>
             <LeftContainer />
             <CenterContainerParent>

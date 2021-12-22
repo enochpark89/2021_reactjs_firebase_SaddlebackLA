@@ -3,11 +3,16 @@ import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getFirestore } from "firebase/firestore"
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut  } from "firebase/auth";
+import { 
+  getAuth, 
+  signInWithPopup, 
+  GoogleAuthProvider, 
+  signOut, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { getStorage } from "firebase/storage";
-
-
-
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -22,10 +27,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const firebaseapp = initializeApp(firebaseConfig);
+
+// Authentication
 export const auth = getAuth();
 export const googleProvider = new GoogleAuthProvider();
 export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 export const logout = signOut;
+export const createuser = createUserWithEmailAndPassword;
+export const signInWithEmail = signInWithEmailAndPassword;
+export const updateprofile = updateProfile;
 
 // retrieve the database (firehouse)
 export const database = getFirestore();

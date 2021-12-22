@@ -4,9 +4,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import googleLogo from "../img/google-logo.svg";
 
-
-import { signInWithGoogle, googleProvider } from "../firebase";
-
+// firebase imports
+import { 
+  signInWithGoogle, 
+  signInWithEmail,  
+  googleProvider, 
+  auth, 
+  logout, 
+  createuser,
+  updateprofile,
+} from "../firebase";
+import {updateProfile} from "firebase/auth";
 
 /* Styled Components*/
 
@@ -45,8 +53,6 @@ const MenuLoginButton = styled.button`
     background-color: var(--twitter-dark-color);
   }
 `;
-
-
 
 const LoginFormContent = styled.div`
   display: flex;
@@ -188,8 +194,9 @@ const LoginForm = ({ isLoggedIn}) => {
   const [displayName, setDisplayName] = useState(""); // 유저 닉네임
   const [isShowLogin, setIsShowLogin] = useState(false);
   const [isShowCreate, setIsShowCreate] = useState(false);
+  const [error, setError] = useState("");
 
-  //* Top Right buttons *//
+  ///* Top Right buttons *///
 
   // Login button handler
   const LoginScreen = () => {
@@ -205,14 +212,40 @@ const LoginForm = ({ isLoggedIn}) => {
     });
   }
 
-  ///* Top Right buttons *///
+  ///* Buttons in a Login Form *///
 
   // Sign in with an exisitng account.
-  const onSubmit = async (event) => {
-      // console.log("Authentication authService.currentUser", authService.currentUser);
-      event.preventDefault();
-      console.log(event);
-    };
+  const onLoginSubmit = async (event) => {
+    // console.log("Authentication authService.currentUser", authService.currentUser);
+    event.preventDefault();
+    signInWithEmail(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      onClose();
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      setError(errorCode);
+    });
+  };
+
+  // Sign up with a new account.
+  const onClickRegister = async (event) => {
+    event.preventDefault();
+    
+    try {
+      await createuser(auth, email, password);
+      await updateProfile(auth.currentUser, {
+        displayName: displayName
+      })
+    }
+    catch (error) {
+      console.log(error);
+    }
+    onClose();
+  };
 
   // Create New Account
   const onCreateNew = () => {
@@ -220,7 +253,7 @@ const LoginForm = ({ isLoggedIn}) => {
     setIsShowLogin(false);
   }
 
-  // If passwords and emails are entered, save them to states.
+  // Set the email and passwords when fields are changed.
   const onChange = (event) => {
   const {
       target: { name, value },
@@ -260,11 +293,7 @@ const LoginForm = ({ isLoggedIn}) => {
       });
     }
     
-    const onClickRegister = (event) => {
-      event.preventDefault();
-      console.log(event.target);
-      console.log(email, password);
-    };
+
 
     const onClose = () => {
       setIsShowLogin(false);
@@ -287,11 +316,12 @@ const LoginForm = ({ isLoggedIn}) => {
         <LoginFormContainer>
           <LoginFormContent>
               <LoginFormTitle>Log in</LoginFormTitle>
-              <LoginFormTag onSubmit={onSubmit}>
+              <LoginFormTag onSubmit={onLoginSubmit}>
                 <LoginInputTag name="emailInput" type="text" placeholder="Email" onChange={onChange} value={email} required></LoginInputTag>
                 <LoginInputTag name="passwordInput" type="password" placeholder="Passwords" onChange={onChange} value={password} required></LoginInputTag>
-                <LoginSubmitTag type="submit" onClick={onSubmit} value="Login"></LoginSubmitTag>
+                <LoginSubmitTag type="submit" onClick={onLoginSubmit} value="Login"></LoginSubmitTag>
               </LoginFormTag>
+              {error && error}
               <SocialLoginContainer>
                 <CreateNew onClick={onCreateNew}>
                 Create New
@@ -303,6 +333,7 @@ const LoginForm = ({ isLoggedIn}) => {
               </SocialLoginContainer>
               <CloseButton icon={faTimesCircle} type="button" onClick={onClose}></CloseButton>
           </LoginFormContent>
+
         </LoginFormContainer> 
       ): null}
 
@@ -316,6 +347,7 @@ const LoginForm = ({ isLoggedIn}) => {
               <LoginInputTag name="passwordInput" type="password" placeholder="Passwords" onChange={onChange} value={password} required></LoginInputTag>
               <LoginSubmitTag type="submit" onClick={onClickRegister} value="Register"></LoginSubmitTag>
             </LoginFormTag>
+            {error && error}
             <CloseButton icon={faTimesCircle} type="button" onClick={onClose}></CloseButton>
 
           </LoginFormContent> 

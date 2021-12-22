@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import SaddlebackLogo from '../img/SaddlebackLogo.svg';
 import { auth, signInWithGoogle, googleProvider, logout } from "../firebase";
-
 import LoginForm from '../routes/LoginForm';
 
 /* Styled Components */
@@ -22,16 +21,37 @@ height: 20%;
 width: 20%;
 `;
 
-const Header = ({ isLoggedIn }) => {
+const LoginMessage = styled.div`
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 400;
+`;
 
+const ContentContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  `;
+
+const Header = ({ isLoggedIn, userObj }) => {
+  console.log(userObj);
+
+  // capitalize first letter
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   return(
     <ContentHeader>
-    <Logo>
-      <img src={SaddlebackLogo} alt="Saddleback Logo" />
-    </Logo>
-    {/* Login Form appears */}
-    <LoginForm isLoggedIn={isLoggedIn}/>
+      <Logo>
+        <img src={SaddlebackLogo} alt="Saddleback Logo" />
+      </Logo>
+      
+      <ContentContainer>
+        { userObj && <LoginMessage>Welcome, {capitalizeFirstLetter(userObj.displayName)}!</LoginMessage> }
+
+        <LoginForm isLoggedIn={isLoggedIn}/>
+      </ContentContainer>
     </ContentHeader>
 
     )
