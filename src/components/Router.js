@@ -13,9 +13,16 @@ import {
 import Header from "./Header"
 import LeftContainer from "./LeftContainer";
 import RightContainer from "./RightContainer";
-import Test from '../components/Test';
-import TweetForm from './TweetForm';
+import Test from './Test';
 
+// routes to different pages
+import Home from '../routes/Home';
+import Worship from '../routes/Worship';
+import Connection from '../routes/Connection';
+import Baptism from '../routes/Baptism';
+import Student from '../routes/Student';
+
+/* Styled Components */
 const Container = styled.div`
 
   width: 1260px;
@@ -28,6 +35,7 @@ const Container = styled.div`
 `;
 
 const CenterContainerParent = styled.div`
+  height: 100vh;
   width: 590px;
   @media (max-width: 768px) {
     width: 100%;
@@ -48,10 +56,19 @@ const AppRouter = ({ isLoggedIn, userObj }) => {
             <CenterContainerParent>
               <Routes>
                 <Route path="/" element={
-                  <TweetForm userObj={userObj}/>
+                  <Home userObj={userObj}/>
                 } />
-                <Route path="/teams" element={
-                  <Test />
+                <Route path="/worship" element={
+                  <Worship userObj={userObj}/>
+                } />
+                <Route path="/connection" element={
+                  <Connection userObj={userObj}/>
+                } />
+                <Route path="/baptism" element={
+                  <Baptism userObj={userObj}/>
+                } />
+                <Route path="/student" element={
+                  <Student userObj={userObj}/>
                 } />
               </Routes>
             </CenterContainerParent>

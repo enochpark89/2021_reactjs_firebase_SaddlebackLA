@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-
+import MemberList from "../small-components/MemberList"
 
 const RightContainerParent = styled.div`
   position: sticky;
@@ -56,60 +56,77 @@ const TrendTitle = styled.h1`
   width: 88%;
   height: 100%;
   word-wrap: break-word;
-
-
+  
 `;
+
+const TrendBoldText = styled.span`
+  font-weight: bold;
+`;
+
+
 
 const RightContainer = () => {
 
     return (
         <RightContainerParent>
-            <TrendContainer>
-              <TrendHeader>
-                <TrendHeaderTitle>News</TrendHeaderTitle>
-              </TrendHeader>
-              <TrendContent>
-                <TrendTitle>
-                  testing testingdsaadfdasfdsafsdafadsdsdfdasfdasfdsafdsafadsfdsafdsafadsfdafdasfdsafdsafdsa
-                </TrendTitle>
-              </TrendContent>
-              <TrendContent>
-                <TrendTitle>
-                  testing testingdsaadfdasfdsafsdafadsdsdfdasfdasfdsafdsafadsfdsafdsafadsfdafdasfdsafdsafdsa
-                </TrendTitle>
-              </TrendContent>
-              <TrendContent>
-                <TrendTitle>
-                  testing testingdsaadfdasfdsafsdafadsdsdfdasfdasfdsafdsafadsfdsafdsafadsfdafdasfdsafdsafdsa
-                </TrendTitle>
-              </TrendContent>
-            </TrendContainer>
-            <TrendContainer>
-              <TrendHeader>
-                <TrendHeaderTitle>Events</TrendHeaderTitle>
-              </TrendHeader>
-              <TrendContent>
-                <TrendTitle>
-                  testing testingdsaadfdasfdsafsdafadsdsdfdasfdasfdsafdsafadsfdsafdsafadsfdafdasfdsafdsafdsa
-                </TrendTitle>
-              </TrendContent>
-              <TrendContent>
-                <TrendTitle>
-                  testing testingdsaadfdasfdsafsdafadsdsdfdasfdasfdsafdsafadsfdsafdsafadsfdafdasfdsafdsafdsa
-                </TrendTitle>
-              </TrendContent>
-              <TrendContent>
-                <TrendTitle>
-                  testing testingdsaadfdasfdsafsdafadsdsdfdasfdasfdsafdsafadsfdsafdsafadsfdafdasfdsafdsafdsa
-                </TrendTitle>
-              </TrendContent>
-            </TrendContainer>
-            <TrendContainer>
-              <TrendHeader>
-                <TrendHeaderTitle>View Members</TrendHeaderTitle>
-              </TrendHeader>
+          <TrendContainer>
+            <TrendHeader>
+              <TrendHeaderTitle>News</TrendHeaderTitle>
+            </TrendHeader>
+            <TrendContent>
+              <TrendTitle>
+                <TrendBoldText>New Location for Saddleback LA:</TrendBoldText>
+                <p>
+                The Auditorium
+                14658 Albers St
+                Sherman Oaks, CA 91411
+                United States
+                </p>
+              </TrendTitle>
+            </TrendContent>
+            <TrendContent>
+              <TrendTitle>
+                <TrendBoldText>Open Small Groups</TrendBoldText>
+                <p>LA Small Group Fam</p>
+              </TrendTitle>
+            </TrendContent>
+            <TrendContent>
+              <TrendTitle>
+                <TrendBoldText>Serving Opportunities</TrendBoldText>
+                <p>Baptism</p>
+                <p>Connection Center</p>
+                <p>Worship Team</p>
+              </TrendTitle>
+            </TrendContent>
+          </TrendContainer>
+          <TrendContainer>
+            <TrendHeader>
+              <TrendHeaderTitle>Events</TrendHeaderTitle>
+            </TrendHeader>
+            <TrendContent>
+              <TrendTitle>
+                <TrendBoldText>Christmas Eve Service (Candlelight Evening Service)</TrendBoldText> 
+                <p>December 24 | 5:00 pm - 7:00 pm PST </p>
+                <p>Place: Los Angeles Church (New Location) | Los Angeles </p> 
+              </TrendTitle>
+            </TrendContent>
+            <TrendContent>
+              <TrendTitle>
+                <TrendBoldText>Christmas Celebration Service</TrendBoldText> 
+                <p>December 26 | 9:00 am - 1:30 pm PST </p>
+                <p>Place: Los Angeles Church (New Location) | Los Angeles </p> 
+              </TrendTitle>
+            </TrendContent>
+            <TrendContent>
+              <TrendTitle>
+                <TrendBoldText>SaddlebackLA Baptism</TrendBoldText> 
+                <p>January 16 | 9:00 am - 1:30 pm PST  </p>
+                <p>Place: Los Angeles Church (New Location) | Los Angeles </p> 
+              </TrendTitle>
+            </TrendContent>
+          </TrendContainer>
+          <MemberList></MemberList>
 
-            </TrendContainer>
         </RightContainerParent>
     );
 }

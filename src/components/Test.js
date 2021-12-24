@@ -22,7 +22,7 @@ function Test() {
 
     return (
         <div className='markdown-body'>
-            <Markdown>{post}</Markdown>
+            <ReactMarkdown>{post}</ReactMarkdown>
         </div>
     );
 }

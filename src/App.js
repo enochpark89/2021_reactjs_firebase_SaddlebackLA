@@ -30,10 +30,8 @@ useEffect(() => {
   <>
   <GlobalStyle></GlobalStyle>
   {/* Send props to the Router about whether the user is logged in or not */}
-
     <Router isLoggedIn={Boolean(isLoggedIn)} userObj={userObj}
     />
-
   </>
   );
 }

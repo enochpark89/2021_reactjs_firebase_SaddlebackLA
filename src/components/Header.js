@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import SaddlebackLogo from '../img/SaddlebackLogo.svg';
 import { auth, signInWithGoogle, googleProvider, logout } from "../firebase";
-import LoginForm from '../routes/LoginForm';
+import LoginForm from '../small-components/LoginForm';
 
 /* Styled Components */
 const ContentHeader = styled.div`
@@ -34,7 +34,6 @@ const ContentContainer = styled.div`
   `;
 
 const Header = ({ isLoggedIn, userObj }) => {
-  console.log(userObj);
 
   // capitalize first letter
   function capitalizeFirstLetter(string) {

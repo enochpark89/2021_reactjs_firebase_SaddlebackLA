@@ -68,19 +68,19 @@ const LeftContainer = () => {
             <IconContainer icon={faHome}></IconContainer>
             <IconText>HOME</IconText>
           </MenuList>
-          <MenuList to="/teams">
+          <MenuList to="/worship">
             <IconContainer icon={faMusic}></IconContainer>
             <IconText>WORSHIP</IconText>
           </MenuList>    
-          <MenuList to="/teams">
+          <MenuList to="/connection">
             <IconContainer icon={faPlug}></IconContainer>
             <IconText>CONNECTION</IconText>
           </MenuList>   
-          <MenuList to="/teams">
+          <MenuList to="/baptism">
             <IconContainer icon={faWater}></IconContainer>
             <IconText>BAPTISM</IconText>
           </MenuList>   
-          <MenuList to="/teams">
+          <MenuList to="/student">
             <IconContainer icon={faUserGraduate}></IconContainer>
             <IconText>STUDENT</IconText>
           </MenuList>   

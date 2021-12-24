@@ -155,12 +155,12 @@ const TweetFormSubmit = styled.input`
   }
 `;
 
-const Tweets = ({ tweetObj, isOwner }) => {
+const Comments = ({ tweetObj, isOwner, collectionName }) => {
   const [editing, setEditing] = useState(false);
   const [newtweet, setNewtweet] = useState(tweetObj.text);
  
   // Literal
-  const tweetTextRef =doc(database, "tweet", `${tweetObj.id}`);
+  const tweetTextRef =doc(database, collectionName, `${tweetObj.id}`);
 
   // Delete handler - ask user - delete from db.
   const onDeleteClick = async () => {
@@ -257,4 +257,4 @@ const Tweets = ({ tweetObj, isOwner }) => {
   );
 };
 
-export default Tweets;
+export default Comments;

@@ -1,4 +1,4 @@
-import react,{useState, useEffect} from "react";
+import React,{useState, useEffect} from "react";
 import styled from "styled-components";
 import {v4 as uuidv4 } from 'uuid';
 
@@ -13,13 +13,23 @@ import {
   query,
   } from 'firebase/firestore';
 
-import Tweets from './Tweets';
+import Comments from '../components/Comments';
+
+/* Styled Components */
+
+const TitleText = styled.h1`
+  align-items: center;
+  font-size: 24px;
+  padding: 33px;
+  font-weight: 500;
+  background-color: #f5f5f5;
+`;
+
 
 const TweetFormContainer = styled.form`
   border-bottom: 1px solid #e6e6e6;
   padding: 15px;
   z-index: 1;
-
 `;
 const TweetFormTextContainer = styled.div``;
 
@@ -58,18 +68,19 @@ const TweetFormSubmit = styled.input`
   }
 `;
 
-const TweetForm = ({ userObj }) => {
+const Baptism = ({ userObj }) => {
     
   const [tweet, settweet] = useState("");
   const [tweets, settweets] = useState([]);
   const [attachment, setAttachment] = useState("");
+  const collectionName = 'baptismcomments';
 
     
   useEffect(() => {
 
     // Real time data retrieval
     const q = query(
-    collection(getFirestore(), 'tweet'),
+    collection(getFirestore(), collectionName),
     orderBy('createdAt', 'desc')
     );
 
@@ -101,9 +112,8 @@ const TweetForm = ({ userObj }) => {
     attachmentUrl = await getDownloadURL(uploadFile.ref);
     }
 
-      // Add the tweet to the database.
-      // Add tweet to firestore
-      await addDoc(collection(database, "tweet"), {
+      // Add coomments to worshipcomments collection
+      await addDoc(collection(database, collectionName), {
         creatorId: userObj.uid,
         displayName: userObj.displayName,
         email: userObj.email,
@@ -147,8 +157,8 @@ const TweetForm = ({ userObj }) => {
   /* return */
   return (
     <>
-      <iframe width="100%" height="700px" src="https://docs.google.com/document/d/e/2PACX-1vTfC44GWS-3sVnzKe8-qJT0C8Z-18KueGYXB_ySSVG18clwCijyNL3R1saGqTzsZj1AmwpDsS6YxDDm/pub?embedded=true"></iframe> 
-      <TweetFormContainer onSubmit={onSubmit}>
+        <TitleText>Baptism</TitleText>
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/8bPB7RuwafM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      <TweetFormContainer onSubmit={onSubmit}>
         <TweetFormTextContainer>
           <TweetFormTextInput
             type="text"
@@ -171,13 +181,14 @@ const TweetForm = ({ userObj }) => {
 
       </TweetFormContainer>
       {tweets.map((tweet) => (
-        <Tweets
+        <Comments
         key={tweet.id}
         tweetObj={tweet}
         isOwner={tweet.creatorId === userObj.uid}
+        collectionName={collectionName}
       />
       ))}
     </>
   );
 }
-export default TweetForm;
+export default Baptism;
