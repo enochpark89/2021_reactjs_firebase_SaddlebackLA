@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import googleLogo from "../img/google-logo.svg";
@@ -96,13 +96,7 @@ const LoginInputTag = styled.input`
   }
 `;
 
-const ErrorMessage = styled.h3`
-  font-size: 13px;
-  margin-top: 8px;
-  margin-bottom: 12px;
-  color: #eb4d4b;
-  font-weight: bold;
-`;
+
 
 const LoginSubmitTag = styled.input`
   border: none;
@@ -179,11 +173,52 @@ const IconGoogle = styled.img`
   margin-bottom: 1px;
 `;
 
-const IconTwitter = styled(FontAwesomeIcon)`
-  width: 22px;
-  margin-right: 12px;
-  margin-bottom: 1px;
+// Notification
+const FadeOut = keyframes`
+    0% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 0.75;
+    }
+    
+    50% {
+        opacity: 0.5;
+    }
+    75% {
+        opacity: 0.25;
+    }
+    100% {
+        opacity: 0;
+    }
 `;
+
+const ErrorNotification = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 70px;
+  background-color: white;
+  border-radius: 20px;
+  border: 5px solid #e74c3c;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 33px 33px;
+  animation-name: ${FadeOut};
+  animation-iteration-count: 1;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+`
+const ErrorText = styled.div`
+  font-size: 20px;
+  font-weight: 550;
+  color: #e74c3c;
+`;
+
 
 
 //* The Component *//
@@ -195,12 +230,14 @@ const LoginForm = ({ isLoggedIn}) => {
   const [isShowLogin, setIsShowLogin] = useState(false);
   const [isShowCreate, setIsShowCreate] = useState(false);
   const [error, setError] = useState("");
+  const [showError, setShowError] = useState(false);
 
   ///* Top Right buttons *///
 
   // Login button handler
   const LoginScreen = () => {
     setIsShowLogin(!isShowLogin);
+
   }
 
   // Log out button handler
@@ -213,6 +250,18 @@ const LoginForm = ({ isLoggedIn}) => {
   }
 
   ///* Buttons in a Login Form *///
+
+  // close button
+  const onClose = () => {
+    setIsShowLogin(false);
+    setIsShowCreate(false);
+  };
+
+  const onErrorScreen = (errorCode) => {
+    setShowError(true);
+    setError(errorCode);
+    setTimeout(() =>{setShowError(false)}, 5000);
+  };
 
   // Sign in with an exisitng account.
   const onLoginSubmit = async (event) => {
@@ -227,7 +276,8 @@ const LoginForm = ({ isLoggedIn}) => {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      setError(errorCode);
+      console.log("ErrorCode: ", errorCode);
+      onErrorScreen(errorCode);
     });
   };
 
@@ -276,11 +326,11 @@ const LoginForm = ({ isLoggedIn}) => {
       signInWithGoogle()
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
+        onClose();
         const credential = googleProvider.credentialFromResult(result);
         const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
-        // ...
       }).catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
@@ -295,13 +345,15 @@ const LoginForm = ({ isLoggedIn}) => {
     
 
 
-    const onClose = () => {
-      setIsShowLogin(false);
-      setIsShowCreate(false);
-    };
 
     return (
     <>
+      {showError ? (
+      <ErrorNotification>
+        <ErrorText>{error}</ErrorText>
+      </ErrorNotification>
+      ): null}
+
       {isLoggedIn ? (
         <LoginMenu>
           <MenuLoginButton onClick={signOut}>Log out</MenuLoginButton>
@@ -321,7 +373,6 @@ const LoginForm = ({ isLoggedIn}) => {
                 <LoginInputTag name="passwordInput" type="password" placeholder="Passwords" onChange={onChange} value={password} required></LoginInputTag>
                 <LoginSubmitTag type="submit" onClick={onLoginSubmit} value="Login"></LoginSubmitTag>
               </LoginFormTag>
-              {error && error}
               <SocialLoginContainer>
                 <CreateNew onClick={onCreateNew}>
                 Create New
@@ -347,7 +398,6 @@ const LoginForm = ({ isLoggedIn}) => {
               <LoginInputTag name="passwordInput" type="password" placeholder="Passwords" onChange={onChange} value={password} required></LoginInputTag>
               <LoginSubmitTag type="submit" onClick={onClickRegister} value="Register"></LoginSubmitTag>
             </LoginFormTag>
-            {error && error}
             <CloseButton icon={faTimesCircle} type="button" onClick={onClose}></CloseButton>
 
           </LoginFormContent> 

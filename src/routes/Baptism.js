@@ -14,6 +14,7 @@ import {
   } from 'firebase/firestore';
 
 import Comments from '../components/Comments';
+import Iframe from 'react-iframe';
 
 /* Styled Components */
 
@@ -158,25 +159,26 @@ const Baptism = ({ userObj }) => {
   return (
     <>
         <TitleText>Baptism</TitleText>
-        <iframe width="100%" height="315" src="https://www.youtube.com/embed/8bPB7RuwafM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      <TweetFormContainer onSubmit={onSubmit}>
-        <TweetFormTextContainer>
-          <TweetFormTextInput
-            type="text"
-            placeholder="Write a comment"
-            value={tweet}
-            onChange={onChange}
-            maxLength={100}
-            required
-          ></TweetFormTextInput>
-        </TweetFormTextContainer>
-        <TweetFormSubmit type="submit" value="Comment" />
-        <input type="file" accept="image/*" onChange={onFileChange} />
-        {attachment ? (
-        <div>
-          <img src={attachment} width="350px" height="350px" />
-          <button onClick={onClearAttachment}>Clear</button>
-        </div>
-      ) : null}
+        <Iframe width="100%" height="315" src="https://www.youtube.com/embed/8bPB7RuwafM" frameborder="0" allowFullScreen></Iframe>
+        <TweetFormContainer onSubmit={onSubmit}>
+          <TweetFormTextContainer>
+            <TweetFormTextInput
+              type="text"
+              placeholder="Write a comment"
+              value={tweet}
+              onChange={onChange}
+              maxLength={100}
+              required
+            ></TweetFormTextInput>
+          </TweetFormTextContainer>
+          <TweetFormSubmit type="submit" value="Comment" />
+          <input type="file" accept="image/*" onChange={onFileChange} />
+          {attachment ? (
+          <div>
+            <img src={attachment} width="350px" height="350px" />
+            <button onClick={onClearAttachment}>Clear</button>
+          </div>
+          ) : null}
 
 
       </TweetFormContainer>
@@ -184,7 +186,7 @@ const Baptism = ({ userObj }) => {
         <Comments
         key={tweet.id}
         tweetObj={tweet}
-        isOwner={tweet.creatorId === userObj.uid}
+        isOwner={userObj ? tweet.creatorId === userObj.uid: false}
         collectionName={collectionName}
       />
       ))}

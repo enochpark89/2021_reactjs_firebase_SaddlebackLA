@@ -159,7 +159,7 @@ const Student = ({ userObj }) => {
   return (
     <>
       <TitleText>Student</TitleText>
-      
+      <img src="https://www.enowiz.com/img/20211224SSM.png" alt="" width="100%" height="100%"/>
       <TweetFormContainer onSubmit={onSubmit}>
         <TweetFormTextContainer>
           <TweetFormTextInput
@@ -186,7 +186,7 @@ const Student = ({ userObj }) => {
         <Comments
         key={tweet.id}
         tweetObj={tweet}
-        isOwner={tweet.creatorId === userObj.uid}
+        isOwner={userObj ? tweet.creatorId === userObj.uid: false}
         collectionName={collectionName}
       />
       ))}

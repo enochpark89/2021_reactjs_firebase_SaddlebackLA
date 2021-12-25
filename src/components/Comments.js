@@ -159,6 +159,7 @@ const Comments = ({ tweetObj, isOwner, collectionName }) => {
   const [editing, setEditing] = useState(false);
   const [newtweet, setNewtweet] = useState(tweetObj.text);
  
+   
   // Literal
   const tweetTextRef =doc(database, collectionName, `${tweetObj.id}`);
 
@@ -240,17 +241,20 @@ const Comments = ({ tweetObj, isOwner, collectionName }) => {
             
           </>
         ) : (
+
           <>
             <PostingTweetDesc>{tweetObj.text}</PostingTweetDesc>
             {tweetObj.attachmentUrl && (
             <img src={tweetObj.attachmentUrl} width="370px" height="370px" />
-          )}
-            <Button onClick={onDeleteClick}>Delete</Button>
-            <Button onClick={toggleEditing}>Edit</Button>
+            )}
+            {isOwner && (
+              <>
+              <Button onClick={onDeleteClick}>Delete</Button>
+              <Button onClick={toggleEditing}>Edit</Button>
+              </>
+            )}
           </>
         )}
-        
-
       </PostingTweetContent>
     </TweetsContainer>
    

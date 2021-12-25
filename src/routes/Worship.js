@@ -13,6 +13,7 @@ import {
   query,
 } from 'firebase/firestore';
 
+import Iframe from 'react-iframe';
 import Comments from '../components/Comments';
 
 /* Styled Components */
@@ -67,6 +68,9 @@ const TweetFormSubmit = styled.input`
     background-color: var(--twitter-dark-color);
   }
 `;
+
+
+const FrameBorder = styled.div``;
 
 const Worship = ({ userObj }) => {
     
@@ -156,8 +160,10 @@ const Worship = ({ userObj }) => {
   /* return */
   return (
     <>
-        <TitleText>Worship Song</TitleText>
-      <iframe width="100%" height="315" src="https://www.youtube.com/embed/iUDw5_TrGx8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+      <TitleText>Worship Song</TitleText>
+      <FrameBorder>
+        <Iframe width="100%" height="315" src="https://www.youtube.com/embed/iUDw5_TrGx8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></Iframe> 
+      </FrameBorder>
       <TweetFormContainer onSubmit={onSubmit}>
         <TweetFormTextContainer>
           <TweetFormTextInput
@@ -184,8 +190,8 @@ const Worship = ({ userObj }) => {
         <Comments
         key={tweet.id}
         tweetObj={tweet}
-        isOwner={tweet.creatorId === userObj.uid}
-        collectionName={collectionName}
+        isOwner={userObj ? tweet.creatorId === userObj.uid: false}
+        collectionName = {collectionName}
       />
       ))}
     </>

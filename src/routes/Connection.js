@@ -66,6 +66,10 @@ const TweetFormSubmit = styled.input`
   &:hover {
     background-color: var(--twitter-dark-color);
   }
+`; 
+
+const FrameDiv = styled.div`
+  padding: 15px 0px;
 `;
 
 const Connection = ({ userObj }) => {
@@ -158,22 +162,22 @@ const Connection = ({ userObj }) => {
   return (
     <>
         <TitleText>Connection</TitleText>
- 
-        <TweetFormContainer onSubmit={onSubmit}>
+        <FrameDiv>
+          <h2><span>Campus:</span> Los Angeles</h2>
+          <h5>Connections Director</h5>
+          <h4>Gift Koomprapun</h4>
           <div>
-            <h2><span>Campus:</span> Los Angeles</h2>
-            <h5 class="sg-pastor-title">Connections Director</h5>
-            <h4 class="sg-pastor-name">Gift Koomprapun</h4>
-            <div class="sg-pastor-contact">
-              <p class="sg-phone-type">Office:</p>
-              <p>
-                <a href="tel: 818-485-2632" class="sg-pastor-phone">(818)-485-2632</a>
-              </p>
-              <p>
-                <a href="mailto: GiftK@saddleback.com" class="sg-pastor-email">GiftK@saddleback.com</a>
-              </p>
-            </div>
+            <p>Office:</p>
+            <p>
+              <a href="tel: 818-485-2632">(818)-485-2632</a>
+            </p>
+            <p>
+              <a href="mailto: GiftK@saddleback.com">GiftK@saddleback.com</a>
+            </p>
           </div>
+        </FrameDiv>
+        <TweetFormContainer onSubmit={onSubmit}>
+
         <TweetFormTextContainer>
           <TweetFormTextInput
             type="text"
@@ -199,8 +203,8 @@ const Connection = ({ userObj }) => {
         <Comments
         key={tweet.id}
         tweetObj={tweet}
-        isOwner={tweet.creatorId === userObj.uid}
-        collectionName={collectionName}
+        isOwner={userObj ? tweet.creatorId === userObj.uid: false}
+        collectionName = {collectionName}
       />
       ))}
     </>

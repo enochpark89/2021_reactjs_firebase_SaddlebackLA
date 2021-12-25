@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {v4 as uuidv4 } from 'uuid';
 
 import {database, auth, storage, storageRef} from "../firebase";
-import {  ref, uploadString, getDownloadURL } from "firebase/storage";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import {
   addDoc,
   collection,
@@ -11,7 +11,7 @@ import {
   onSnapshot,
   orderBy,
   query,
-  } from 'firebase/firestore';
+} from 'firebase/firestore';
 
 import Comments from '../components/Comments';
 
@@ -67,15 +67,17 @@ const TweetFormSubmit = styled.input`
   }
 `;
 
+const FrameBorder = styled.div``;
+
 const Home = ({ userObj }) => {
     
   const [tweet, settweet] = useState("");
   const [tweets, settweets] = useState([]);
   const [attachment, setAttachment] = useState("");
   const collectionName = 'homecomments';
-    
+  
   useEffect(() => {
-
+  
     // Real time data retrieval from 'homecomments' collection
     const q = query(
     collection(getFirestore(), collectionName),
@@ -153,13 +155,13 @@ const Home = ({ userObj }) => {
 
   const onClearAttachment = () => { setAttachment("") };
 
-  console.log(tweets);
-
   /* return */
   return (
     <>
       <TitleText>Announcement</TitleText>
-      <iframe width="100%" height="700px" src="https://docs.google.com/document/d/e/2PACX-1vTfC44GWS-3sVnzKe8-qJT0C8Z-18KueGYXB_ySSVG18clwCijyNL3R1saGqTzsZj1AmwpDsS6YxDDm/pub?embedded=true"></iframe> 
+      <FrameBorder>
+        <iframe width="100%" height="700px" src="https://docs.google.com/document/d/e/2PACX-1vTfC44GWS-3sVnzKe8-qJT0C8Z-18KueGYXB_ySSVG18clwCijyNL3R1saGqTzsZj1AmwpDsS6YxDDm/pub?embedded=true"></iframe> 
+      </FrameBorder>
       <TweetFormContainer onSubmit={onSubmit}>
         <TweetFormTextContainer>
           <TweetFormTextInput
@@ -186,7 +188,7 @@ const Home = ({ userObj }) => {
         <Comments
         key={tweet.id}
         tweetObj={tweet}
-        isOwner={tweet.creatorId === userObj.uid}
+        isOwner={userObj ? tweet.creatorId === userObj.uid: false}
         collectionName = {collectionName}
       />
       ))}
