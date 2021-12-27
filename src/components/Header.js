@@ -33,8 +33,8 @@ const ContentContainer = styled.div`
   justify-content: space-between;
   `;
 
-const Header = ({ isLoggedIn, userObj }) => {
-
+const Header = ({ isLoggedIn, userObj, refreshUser }) => {
+  
   // capitalize first letter
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -47,7 +47,7 @@ const Header = ({ isLoggedIn, userObj }) => {
       </Logo>
       
       <ContentContainer>
-        { userObj && <LoginMessage>Welcome, {capitalizeFirstLetter(userObj.displayName)}!</LoginMessage> }
+        { isLoggedIn && <LoginMessage>You are logged in!</LoginMessage> }
 
         <LoginForm isLoggedIn={isLoggedIn}/>
       </ContentContainer>

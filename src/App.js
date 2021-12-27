@@ -19,20 +19,35 @@ useEffect(() => {
       setIsLoggedIn(true);
       // Set user object state (current logged in user).
       setUserObj(user);
-      setInit(true);
     } else {
       setIsLoggedIn(false);
     }
   });
 }, []);
 
+
+// Bugfix#1: Refresh userObj in parts.
+// refresh the user object in parts so that other pages would refresh itself.
+
+const refreshUser = () => {
+  const user = auth.currentUser;
+  setUserObj({
+    displayName: user.displayName,
+    uid: user.uid,
+    updateProfile: (args) => user.updateProfile(args),
+  });
+};
+
   return (
-  <>
-  <GlobalStyle></GlobalStyle>
-  {/* Send props to the Router about whether the user is logged in or not */}
-    <Router isLoggedIn={Boolean(isLoggedIn)} userObj={userObj}
-    />
-  </>
+    <>
+      <GlobalStyle></GlobalStyle>
+      {/* Send props to the Router about whether the user is logged in or not */}
+      <Router 
+      isLoggedIn={Boolean(isLoggedIn)}
+      userObj={userObj}
+      refreshUser={refreshUser}
+      />
+    </>
   );
 }
 

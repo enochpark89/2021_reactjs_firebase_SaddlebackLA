@@ -9,7 +9,7 @@ const LeftContainerParent = styled.div`
   top: 91px;
   left: 0;
   width: 280px;
-  max-height: 400px;
+  max-height: 300px;
 
   @media (max-width: 768px) {
     display: none;

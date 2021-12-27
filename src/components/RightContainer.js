@@ -7,7 +7,7 @@ const RightContainerParent = styled.div`
   top: 91px;
   left: 0;
   width: 330px;
-  max-height: 400px;
+  max-height: 300px;
 
   @media (max-width: 768px) {
     display: none;

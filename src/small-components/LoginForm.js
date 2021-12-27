@@ -209,7 +209,7 @@ const ErrorNotification = styled.div`
   box-shadow: rgba(0, 0, 0, 0.4) 0px 33px 33px;
   animation-name: ${FadeOut};
   animation-iteration-count: 1;
-  animation-duration: 5s;
+  animation-duration: 3s;
   animation-timing-function: linear;
   animation-fill-mode: forwards;
 `
@@ -260,7 +260,7 @@ const LoginForm = ({ isLoggedIn}) => {
   const onErrorScreen = (errorCode) => {
     setShowError(true);
     setError(errorCode);
-    setTimeout(() =>{setShowError(false)}, 5000);
+    setTimeout(() =>{setShowError(false)}, 3000);
   };
 
   // Sign in with an exisitng account.
@@ -275,8 +275,6 @@ const LoginForm = ({ isLoggedIn}) => {
     })
     .catch((error) => {
       const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log("ErrorCode: ", errorCode);
       onErrorScreen(errorCode);
     });
   };
@@ -292,7 +290,8 @@ const LoginForm = ({ isLoggedIn}) => {
       })
     }
     catch (error) {
-      console.log(error);
+      const errorCode = error.code;
+      onErrorScreen(errorCode);
     }
     onClose();
   };
@@ -337,9 +336,7 @@ const LoginForm = ({ isLoggedIn}) => {
         const errorMessage = error.message;
         // The email of the user's account used.
         const email = error.email;
-        // The AuthCredential type that was used.
-        const credential = googleProvider.credentialFromError(error);
-        // ...
+        // The AuthCredential type that was used.        // ...
       });
     }
     
@@ -371,7 +368,7 @@ const LoginForm = ({ isLoggedIn}) => {
               <LoginFormTag onSubmit={onLoginSubmit}>
                 <LoginInputTag name="emailInput" type="text" placeholder="Email" onChange={onChange} value={email} required></LoginInputTag>
                 <LoginInputTag name="passwordInput" type="password" placeholder="Passwords" onChange={onChange} value={password} required></LoginInputTag>
-                <LoginSubmitTag type="submit" onClick={onLoginSubmit} value="Login"></LoginSubmitTag>
+                <LoginSubmitTag type="submit" value="Login"></LoginSubmitTag>
               </LoginFormTag>
               <SocialLoginContainer>
                 <CreateNew onClick={onCreateNew}>
@@ -396,7 +393,7 @@ const LoginForm = ({ isLoggedIn}) => {
               <LoginInputTag name="displayNameInput" type="text" placeholder="Display Name" onChange={onChange} value={displayName} required></LoginInputTag>
               <LoginInputTag name="emailInput" type="text" placeholder="Email" onChange={onChange} value={email} required></LoginInputTag>
               <LoginInputTag name="passwordInput" type="password" placeholder="Passwords" onChange={onChange} value={password} required></LoginInputTag>
-              <LoginSubmitTag type="submit" onClick={onClickRegister} value="Register"></LoginSubmitTag>
+              <LoginSubmitTag type="submit" value="Register"></LoginSubmitTag>
             </LoginFormTag>
             <CloseButton icon={faTimesCircle} type="button" onClick={onClose}></CloseButton>
 

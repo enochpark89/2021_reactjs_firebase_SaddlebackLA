@@ -1,11 +1,8 @@
 import React,{useState, useEffect} from "react";
 import styled from "styled-components";
-import {v4 as uuidv4 } from 'uuid';
 
-import {database, auth, storage, storageRef} from "../firebase";
-import {  ref, uploadString, getDownloadURL } from "firebase/storage";
+import {auth} from "../firebase";
 import {
-  addDoc,
   collection,
   getFirestore,
   onSnapshot,
@@ -14,7 +11,7 @@ import {
   } from 'firebase/firestore';
 
 import Comments from '../components/Comments';
-
+import CommentForm from '../components/CommentForm';
 
 /* Styled Components */
 
@@ -27,55 +24,15 @@ const TitleText = styled.h1`
 `;
 
 
-const TweetFormContainer = styled.form`
-  border-bottom: 1px solid #e6e6e6;
-  padding: 15px;
-  z-index: 1;
-`;
-const TweetFormTextContainer = styled.div``;
-
-const TweetFormTextInput = styled.input`
-  width: 100%;
-  border: none;
-  outline: none;
-  padding: 12px 0px;
-  padding-left: 4px;
-  padding-right: 30px;
-  padding-bottom: 18px;
-  margin-bottom: 15px;
-  box-sizing: border-box;
-  font-size: 18px;
-  border-radius: 4px;
-  color: #989898;
-  background-color: #f8f8f8;
-  z-index: 8;
+const FrameDiv = styled.div`
+  padding: 15px 0px;
 `;
 
-
-const TweetFormSubmit = styled.input`
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 10px 15px;
-  color: white;
-  border-radius: 30px;
-  font-size: 15px;
-  font-weight: bold;
-  background-color: var(--twitter-color);
-  margin-right: 5px;
-
-  &:hover {
-    background-color: var(--twitter-dark-color);
-  }
-`;
-
-const Student = ({ userObj }) => {
+const Connection = ({ userObj, isLoggedIn }) => {
     
-  const [tweet, settweet] = useState("");
   const [tweets, settweets] = useState([]);
-  const [attachment, setAttachment] = useState("");
   const collectionName = 'studentcomments';
-
+  let currentUser = auth.currentUser;
     
   useEffect(() => {
 
@@ -100,97 +57,23 @@ const Student = ({ userObj }) => {
     };
   }, []);
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    let attachmentUrl='';
-
-    // Upload a file if the attachment is not empty.
-    if (attachment !== "") {
-    const fileRef = ref(storage, `${userObj.uid}/${uuidv4()}`);
-    // send the file reference to the storage service
-
-    const uploadFile = await uploadString(fileRef, attachment, "data_url");
-    attachmentUrl = await getDownloadURL(uploadFile.ref);
-    }
-
-      // Add coomments to worshipcomments collection
-      await addDoc(collection(database, collectionName), {
-        creatorId: userObj.uid,
-        displayName: userObj.displayName,
-        email: userObj.email,
-        createdAt: Date.now(),
-        text: tweet,
-        photoURL: userObj.photoURL,
-        attachmentUrl,
-        });
-
-      settweet("");
-      setAttachment("");
-  };
-
-  const onChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    settweet(value);
-  };
-
-  const onFileChange = (event) => {
-    
-    // extract event.target.files[0] in ES6 syntax.
-    const {
-      target: { files },
-    } = event;
-    const theFile = files[0];
-    const reader = new FileReader();
-    reader.onloadend = (finishedEvent) => {
-      // finished event contain info about the file.
-      const {
-        currentTarget: { result },
-      } = finishedEvent;
-      setAttachment(result);
-    };
-    reader.readAsDataURL(theFile);
-  };
-
-  const onClearAttachment = () => { setAttachment("") };
-
   /* return */
   return (
     <>
-      <TitleText>Student</TitleText>
-      <img src="https://www.enowiz.com/img/20211224SSM.png" alt="" width="100%" height="100%"/>
-      <TweetFormContainer onSubmit={onSubmit}>
-        <TweetFormTextContainer>
-          <TweetFormTextInput
-            type="text"
-            placeholder="Write a comment"
-            value={tweet}
-            onChange={onChange}
-            maxLength={100}
-            required
-          ></TweetFormTextInput>
-        </TweetFormTextContainer>
-        <TweetFormSubmit type="submit" value="Comment" />
-        <input type="file" accept="image/*" onChange={onFileChange} />
-        {attachment ? (
-        <div>
-          <img src={attachment} width="350px" height="350px" />
-          <button onClick={onClearAttachment}>Clear</button>
-        </div>
-      ) : null}
-
-
-      </TweetFormContainer>
+      <TitleText>Saddleback Student Ministry (SSM)</TitleText>
+      <FrameDiv>
+        <img src="https://www.enowiz.com/img/20211224SSM.png" alt="" width="100%" height="100%"/>
+      </FrameDiv>
+      <CommentForm isLoggedIn={isLoggedIn} currentUser={currentUser} collectionName={collectionName}></CommentForm>
       {tweets.map((tweet) => (
         <Comments
         key={tweet.id}
         tweetObj={tweet}
-        isOwner={userObj ? tweet.creatorId === userObj.uid: false}
-        collectionName={collectionName}
+        isOwner={currentUser ? tweet.creatorId === currentUser.uid: false}
+        collectionName = {collectionName}
       />
       ))}
     </>
   );
 }
-export default Student;
+export default Connection;

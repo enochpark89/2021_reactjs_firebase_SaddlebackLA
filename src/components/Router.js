@@ -7,13 +7,16 @@ import {
     Link,
     Outlet,
     useNavigate ,
+    Navigate,
   } from "react-router-dom";
+
+// firebase import
+import {auth } from "../firebase";
 
 // components imports
 import Header from "./Header"
 import LeftContainer from "./LeftContainer";
 import RightContainer from "./RightContainer";
-import Test from './Test';
 
 // routes to different pages
 import Home from '../routes/Home';
@@ -42,39 +45,43 @@ const CenterContainerParent = styled.div`
   }
   border-right: 1px solid #e6e6e6;
   border-left: 1px solid #e6e6e6;;
-
+  overflow: auto;
 `;
 
 
-const AppRouter = ({ isLoggedIn, userObj }) => {
- 
-    return (
-        <BrowserRouter>
-          <Header isLoggedIn={isLoggedIn} userObj={userObj} />
-          <Container>
-            <LeftContainer />
-            <CenterContainerParent>
-              <Routes>
-                <Route path="/" element={
-                  <Home userObj={userObj}/>
-                } />
-                <Route path="/worship" element={
-                  <Worship userObj={userObj}/>
-                } />
-                <Route path="/connection" element={
-                  <Connection userObj={userObj}/>
-                } />
-                <Route path="/baptism" element={
-                  <Baptism userObj={userObj}/>
-                } />
-                <Route path="/student" element={
-                  <Student userObj={userObj}/>
-                } />
-              </Routes>
-            </CenterContainerParent>
-            <RightContainer />
-          </Container>
-        </BrowserRouter>
-    )
-  };
+const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
+
+  return (
+    <BrowserRouter>
+      <Header isLoggedIn={isLoggedIn} userObj={userObj} refreshUser={refreshUser} />
+      <Container>
+        <LeftContainer />
+        <CenterContainerParent>
+          <Routes>
+            <Route path="/" element={
+              <Home userObj={userObj} isLoggedIn={isLoggedIn}/>
+            } />
+            <Route path="/worship" element={
+              <Worship userObj={userObj} isLoggedIn={isLoggedIn}/>
+            } />
+            <Route path="/connection" element={
+              <Connection userObj={userObj} isLoggedIn={isLoggedIn}/>
+            } />
+            <Route path="/baptism" element={
+              <Baptism userObj={userObj} isLoggedIn={isLoggedIn}/>
+            } />
+            <Route path="/student" element={
+              <Student userObj={userObj} isLoggedIn={isLoggedIn}/>
+            } />
+                <Route
+                path="*"
+                element={<Navigate to="/" />}
+            />
+          </Routes>
+        </CenterContainerParent>
+        <RightContainer />
+      </Container>
+    </BrowserRouter>
+  )
+};
   export default AppRouter;

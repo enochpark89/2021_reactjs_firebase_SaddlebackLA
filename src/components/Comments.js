@@ -155,6 +155,11 @@ const TweetFormSubmit = styled.input`
   }
 `;
 
+const ImageContainer = styled.div`
+padding: 10px 0px;
+`;
+
+
 const Comments = ({ tweetObj, isOwner, collectionName }) => {
   const [editing, setEditing] = useState(false);
   const [newtweet, setNewtweet] = useState(tweetObj.text);
@@ -224,37 +229,37 @@ const Comments = ({ tweetObj, isOwner, collectionName }) => {
         </PostingTweetAuthor>
 
         
-        { editing ? (
+    { editing ? (
 
-          <>
-            <TweetFormContainer onSubmit={onUpdateSubmit}>
-              <TweetFormTextInput
-                type="text"
-                placeholder={tweetObj.text}
-                value={newtweet}
-                required
-                onChange={onChange}
-              />
-              <TweetFormSubmit type="submit" value="Update" />
-              <Button onClick={toggleEditing}>Cancel</Button>
-            </TweetFormContainer>
-            
-          </>
-        ) : (
+      <>
+        <TweetFormContainer onSubmit={onUpdateSubmit}>
+          <TweetFormTextInput
+            type="text"
+            placeholder={tweetObj.text}
+            value={newtweet}
+            required
+            onChange={onChange}
+          />
+          <TweetFormSubmit type="submit" value="Update" />
+          <Button onClick={toggleEditing}>Cancel</Button>
+        </TweetFormContainer>
+        
+      </>
+      ) : (
 
+      <>
+        <PostingTweetDesc>{tweetObj.text}</PostingTweetDesc>
+        {tweetObj.attachmentUrl && (
+        <ImageContainer><img src={tweetObj.attachmentUrl} width="370px" height="370px" />
+        </ImageContainer>)}
+        {isOwner && (
           <>
-            <PostingTweetDesc>{tweetObj.text}</PostingTweetDesc>
-            {tweetObj.attachmentUrl && (
-            <img src={tweetObj.attachmentUrl} width="370px" height="370px" />
-            )}
-            {isOwner && (
-              <>
-              <Button onClick={onDeleteClick}>Delete</Button>
-              <Button onClick={toggleEditing}>Edit</Button>
-              </>
-            )}
+          <Button onClick={onDeleteClick}>Delete</Button>
+          <Button onClick={toggleEditing}>Edit</Button>
           </>
         )}
+      </>
+    )}
       </PostingTweetContent>
     </TweetsContainer>
    
