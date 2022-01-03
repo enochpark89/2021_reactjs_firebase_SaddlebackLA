@@ -29,7 +29,7 @@ const FrameDiv = styled.div`
   padding: 15px 0px;
 `;
 
-const Connection = ({ userObj, isLoggedIn }) => {
+const Home = ({ userObj, isLoggedIn }) => {
     
   const [tweets, settweets] = useState([]);
   const collectionName = 'homecomments';
@@ -77,4 +77,4 @@ const Connection = ({ userObj, isLoggedIn }) => {
     </>
   );
 }
-export default Connection;
+export default Home;

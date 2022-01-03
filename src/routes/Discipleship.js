@@ -24,14 +24,14 @@ const TitleText = styled.h1`
 `;
 
 
-const FrameBorder = styled.div`
+const FrameDiv = styled.div`
   padding: 15px 0px;
 `;
 
 const Connection = ({ userObj, isLoggedIn }) => {
     
   const [tweets, settweets] = useState([]);
-  const collectionName = 'connectioncomments';
+  const collectionName = 'studentcomments';
   let currentUser = auth.currentUser;
     
   useEffect(() => {
@@ -60,9 +60,10 @@ const Connection = ({ userObj, isLoggedIn }) => {
   /* return */
   return (
     <>
-      <TitleText>Connection Team</TitleText>
-      <FrameBorder>
-      </FrameBorder>
+      <TitleText>Discipleship</TitleText>
+      <FrameDiv>
+        <img src="https://www.enowiz.com/img/20211224SSM.png" alt="" width="100%" height="100%"/>
+      </FrameDiv>
       <CommentForm isLoggedIn={isLoggedIn} currentUser={currentUser} collectionName={collectionName}></CommentForm>
       {tweets.map((tweet) => (
         <Comments

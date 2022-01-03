@@ -12,6 +12,7 @@ import {
 
 import Comments from '../components/Comments';
 import CommentForm from '../components/CommentForm';
+import Iframe from 'react-iframe';
 
 /* Styled Components */
 
@@ -28,10 +29,10 @@ const FrameDiv = styled.div`
   padding: 15px 0px;
 `;
 
-const Connection = ({ userObj, isLoggedIn }) => {
+const Ministry = ({ userObj, isLoggedIn }) => {
     
   const [tweets, settweets] = useState([]);
-  const collectionName = 'studentcomments';
+  const collectionName = 'ministrycomments';
   let currentUser = auth.currentUser;
     
   useEffect(() => {
@@ -60,9 +61,9 @@ const Connection = ({ userObj, isLoggedIn }) => {
   /* return */
   return (
     <>
-      <TitleText>Saddleback Student Ministry (SSM)</TitleText>
+      <TitleText>Ministry</TitleText>
       <FrameDiv>
-        <img src="https://www.enowiz.com/img/20211224SSM.png" alt="" width="100%" height="100%"/>
+        <img src="https://www.enowiz.com/saddlebackla_image/ministry_image.jpg" alt="" width="100%" height="100%"/>
       </FrameDiv>
       <CommentForm isLoggedIn={isLoggedIn} currentUser={currentUser} collectionName={collectionName}></CommentForm>
       {tweets.map((tweet) => (
@@ -76,4 +77,4 @@ const Connection = ({ userObj, isLoggedIn }) => {
     </>
   );
 }
-export default Connection;
+export default Ministry;

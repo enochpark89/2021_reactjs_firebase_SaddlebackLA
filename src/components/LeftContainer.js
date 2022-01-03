@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faHome, faMusic, faPlug, faWater, faUserGraduate, faSearch, faArrowCircleUp, faTimes, faUserTag, faUser } from "@fortawesome/free-solid-svg-icons";
+import {faHome, faChurch, faMusic, faPlug, faWater, faUserGraduate, faSearch, faArrowCircleUp, faTimes, faUserTag, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const LeftContainerParent = styled.div`
   position: sticky;
@@ -71,18 +71,22 @@ const LeftContainer = () => {
           <MenuList to="/worship">
             <IconContainer icon={faMusic}></IconContainer>
             <IconText>WORSHIP</IconText>
-          </MenuList>    
+          </MenuList>  
+          <MenuList to="/ministry">
+            <IconContainer icon={faChurch}></IconContainer>
+            <IconText>MINISTRY</IconText>
+          </MenuList> 
           <MenuList to="/connection">
             <IconContainer icon={faPlug}></IconContainer>
-            <IconText>CONNECTION</IconText>
+            <IconText>FELLOWSHIP</IconText>
           </MenuList>   
           <MenuList to="/baptism">
             <IconContainer icon={faWater}></IconContainer>
-            <IconText>BAPTISM</IconText>
+            <IconText>EVANGELISM</IconText>
           </MenuList>   
           <MenuList to="/student">
             <IconContainer icon={faUserGraduate}></IconContainer>
-            <IconText>STUDENT</IconText>
+            <IconText>DISCIPLESHIP</IconText>
           </MenuList>   
         </MenuNav>  
         </LeftContainerParent>

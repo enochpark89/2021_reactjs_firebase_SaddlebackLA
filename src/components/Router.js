@@ -21,9 +21,10 @@ import RightContainer from "./RightContainer";
 // routes to different pages
 import Home from '../routes/Home';
 import Worship from '../routes/Worship';
-import Connection from '../routes/Connection';
+import Ministry from '../routes/Ministry';
+import Fellowship from '../routes/Fellowship';
 import Baptism from '../routes/Baptism';
-import Student from '../routes/Student';
+import Discipleship from '../routes/Discipleship';
 
 /* Styled Components */
 const Container = styled.div`
@@ -61,17 +62,21 @@ const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
             <Route path="/" element={
               <Home userObj={userObj} isLoggedIn={isLoggedIn}/>
             } />
+
             <Route path="/worship" element={
               <Worship userObj={userObj} isLoggedIn={isLoggedIn}/>
             } />
+            <Route path="/ministry" element={
+              <Ministry userObj={userObj} isLoggedIn={isLoggedIn}/>
+            } />
             <Route path="/connection" element={
-              <Connection userObj={userObj} isLoggedIn={isLoggedIn}/>
+              <Fellowship userObj={userObj} isLoggedIn={isLoggedIn}/>
             } />
             <Route path="/baptism" element={
               <Baptism userObj={userObj} isLoggedIn={isLoggedIn}/>
             } />
             <Route path="/student" element={
-              <Student userObj={userObj} isLoggedIn={isLoggedIn}/>
+              <Discipleship userObj={userObj} isLoggedIn={isLoggedIn}/>
             } />
                 <Route
                 path="*"

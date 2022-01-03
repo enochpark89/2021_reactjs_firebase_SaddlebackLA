@@ -12,7 +12,6 @@ import {
 
 import Comments from '../components/Comments';
 import CommentForm from '../components/CommentForm';
-import Iframe from 'react-iframe';
 
 /* Styled Components */
 
@@ -25,14 +24,14 @@ const TitleText = styled.h1`
 `;
 
 
-const FrameDiv = styled.div`
+const FrameBorder = styled.div`
   padding: 15px 0px;
 `;
 
 const Connection = ({ userObj, isLoggedIn }) => {
     
   const [tweets, settweets] = useState([]);
-  const collectionName = 'baptismcomments';
+  const collectionName = 'connectioncomments';
   let currentUser = auth.currentUser;
     
   useEffect(() => {
@@ -61,10 +60,9 @@ const Connection = ({ userObj, isLoggedIn }) => {
   /* return */
   return (
     <>
-      <TitleText>Evangelism</TitleText>
-      <FrameDiv>
-        <Iframe width="100%" height="315" src="https://www.youtube.com/embed/8bPB7RuwafM" allowFullScreen></Iframe>
-      </FrameDiv>
+      <TitleText>Fellowship</TitleText>
+      <FrameBorder>
+      </FrameBorder>
       <CommentForm isLoggedIn={isLoggedIn} currentUser={currentUser} collectionName={collectionName}></CommentForm>
       {tweets.map((tweet) => (
         <Comments
